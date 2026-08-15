@@ -1,0 +1,37 @@
+name: Backstory spotlights
+
+# Free scheduler for the push notifications — sidesteps Vercel Hobby plan's
+# Cron frequency limits by using GitHub Actions as the clock instead.
+# Times are UTC, chosen to land at ~9:30 / 13:30 / 17:30 / 21:30 IST.
+on:
+  schedule:
+    - cron: "0 4 * * *"
+    - cron: "0 8 * * *"
+    - cron: "0 12 * * *"
+    - cron: "0 16 * * *"
+  workflow_dispatch:
+    inputs:
+      slot:
+        description: "Slot to test (morning/midday/evening/night)"
+        required: false
+        default: "morning"
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Determine slot from trigger
+        id: slot
+        run: |
+          case "${{ github.event.schedule }}" in
+            "0 4 * * *") echo "slot=morning" >> "$GITHUB_OUTPUT" ;;
+            "0 8 * * *") echo "slot=midday" >> "$GITHUB_OUTPUT" ;;
+            "0 12 * * *") echo "slot=evening" >> "$GITHUB_OUTPUT" ;;
+            "0 16 * * *") echo "slot=night" >> "$GITHUB_OUTPUT" ;;
+            *) echo "slot=${{ github.event.inputs.slot || 'morning' }}" >> "$GITHUB_OUTPUT" ;;
+          esac
+
+      - name: Ping /api/notify
+        run: |
+          curl -sS -X GET "${{ secrets.APP_URL }}/api/notify?slot=${{ steps.slot.outputs.slot }}" \
+            -H "x-app-secret: ${{ secrets.APP_SECRET }}"

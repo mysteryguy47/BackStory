@@ -1,0 +1,10 @@
+{
+  "name": "backstory",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Personal business case-study PWA — static frontend + small Vercel API for push notifications.",
+  "dependencies": {
+    "@vercel/blob": "^2.6.1",
+    "web-push": "^3.6.7"
+  }
+}

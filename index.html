@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1">
+<title>Backstory</title>
+<meta name="description" content="One business case study at a time.">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0e0d12">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Backstory">
+<link rel="apple-touch-icon" href="icons/icon-180.png">
+<link rel="icon" href="icons/icon-192.png">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div id="app">
+
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-mark">B</span>
+      <span class="brand-name">Backstory</span>
+    </div>
+    <button id="settingsBtn" class="icon-btn" aria-label="Settings">⚙</button>
+  </header>
+
+  <nav class="tabs" id="tabs">
+    <button class="tab active" data-view="feed">Feed</button>
+    <button class="tab" data-view="browse">Browse</button>
+    <button class="tab" data-view="saved">Saved</button>
+  </nav>
+
+  <main id="main">
+
+    <section id="view-feed" class="view active">
+      <div class="spotlight" id="spotlight"></div>
+      <div class="section-label">More stories</div>
+      <div class="card-list" id="feedList"></div>
+    </section>
+
+    <section id="view-browse" class="view">
+      <div class="search-row">
+        <input type="search" id="searchInput" placeholder="Search companies…" autocomplete="off">
+      </div>
+      <div class="chip-row" id="categoryChips"></div>
+      <div class="card-list" id="browseList"></div>
+    </section>
+
+    <section id="view-saved" class="view">
+      <div class="card-list" id="savedList"></div>
+      <p class="empty-state" id="savedEmpty">Nothing saved yet. Tap the bookmark on any story to keep it here.</p>
+    </section>
+
+    <section id="view-detail" class="view">
+      <button id="backBtn" class="back-btn">← Back</button>
+      <article id="detailArticle"></article>
+    </section>
+
+    <section id="view-settings" class="view">
+      <button id="settingsBackBtn" class="back-btn">← Back</button>
+      <h2>Settings</h2>
+
+      <div class="settings-block">
+        <h3>Nudges</h3>
+        <p class="muted">Get 2–4 pushes a day, each one a new company spotlight. Requires the backend to be deployed (see SETUP.md) and this app installed to your Home Screen.</p>
+        <button id="enableNotifBtn" class="primary-btn">Enable notifications</button>
+        <p class="status-line" id="notifStatus"></p>
+      </div>
+
+      <div class="settings-block">
+        <h3>Sync key</h3>
+        <p class="muted">Paste the APP_SECRET from your deployment so this device can register for push.</p>
+        <input type="password" id="syncKeyInput" placeholder="APP_SECRET">
+        <button id="saveKeyBtn" class="secondary-btn">Save key</button>
+      </div>
+
+      <div class="settings-block">
+        <h3>Progress</h3>
+        <p class="muted" id="progressLine"></p>
+        <button id="resetBtn" class="secondary-btn">Reset read history</button>
+      </div>
+
+      <div class="settings-block">
+        <p class="muted small"><span id="countLine"></span> case studies, more added over time.</p>
+      </div>
+    </section>
+
+  </main>
+
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
