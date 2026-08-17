@@ -64,6 +64,15 @@ module.exports = async (req, res) => {
     await webpush.sendNotification(sub, JSON.stringify(message));
     return res.status(200).json({ sent: true, message });
   } catch (e) {
-    return res.status(500).json({ error: "notify handler crashed", detail: String((e && e.message) || e) });
+    // web-push throws a WebPushError with statusCode/body from the push
+    // service itself (e.g. Apple's push gateway) — surface that instead of
+    // just the generic wrapper message, since that's what actually explains
+    // subscription mismatches, expired subscriptions, or bad VAPID keys.
+    return res.status(500).json({
+      error: "notify handler crashed",
+      detail: String((e && e.message) || e),
+      pushStatusCode: e && e.statusCode,
+      pushBody: e && e.body,
+    });
   }
 };
